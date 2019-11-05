@@ -5,23 +5,25 @@
 
 class Tenant {
 
+    protected: 
+
+        double budget;
+
     private:
         
         int agreeability;
-        double budget;
         
-
-
-
     public:
 
         Tenant();
+        Tenant(const Tenant &t);
+        Tenant & operator=(const Tenant &t);
 
-        // TODO Made Additional Constructors
 
         int get_tenant_agreeability();
-        int get_tenant_budget();
-        
+        double get_tenant_budget();
+
+        virtual void test_print() const;
 
 
 };
