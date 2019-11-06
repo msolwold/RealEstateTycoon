@@ -1,19 +1,22 @@
 
 
-tycoon.out: main.o Game.o Player.o PropertiesList.o Property.o Apartment.o House.o Business.o Tenant.o Civilian_Tenant.o Business_Tenant.o
-	$(CXX) $(CXXFLAGS) -o tycoon.out main.o Game.o Player.o PropertiesList.o Property.o Apartment.o House.o Business.o Tenant.o Civilian_Tenant.o Business_Tenant.o
+tycoon.out: main.o Game.o Player.o PropertiesList.o RandomEvent.o Property.o Apartment.o House.o Business.o Tenant.o Civilian_Tenant.o Business_Tenant.o
+	$(CXX) $(CXXFLAGS) -o tycoon.out main.o Game.o Player.o PropertiesList.o RandomEvent.o Property.o Apartment.o House.o Business.o Tenant.o Civilian_Tenant.o Business_Tenant.o
 
 main.o: main.cpp Core/Game.h
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
-Game.o: Core/Game.cpp Core/Player.h Properties/Property.h Core/PropertiesList.h
+Game.o: Core/Game.cpp Core/Player.h Properties/Property.h Core/PropertiesList.h Tenants/Tenant.h
 	$(CXX) $(CXXFLAGS) -c Core/Game.cpp 
 
-Player.o: Core/Player.cpp Core/PropertiesList.h
+Player.o: Core/Player.cpp Core/PropertiesList.h Tenants/Tenant.h Properties/Property.h
 	$(CXX) $(CXXFLAGS) -c Core/Player.cpp
 
 PropertiesList.o: Core/PropertiesList.cpp Properties/Property.h
 	$(CXX) $(CXXFLAGS) -c Core/PropertiesList.cpp
+
+RandomEvent.o: Core/RandomEvent.cpp Core/Player.h Properties/Property.h Core/PropertiesList.h
+	$(CXX) $(CXXFLAGS) -c Core/RandomEvent.cpp
 
 Property.o: Properties/Property.cpp Tenants/Tenant.h Properties/Apartment.h Properties/House.h Properties/Business.h
 	$(CXX) $(CXXFLAGS) -c Properties/Property.cpp

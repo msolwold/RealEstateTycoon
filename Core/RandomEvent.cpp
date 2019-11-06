@@ -99,9 +99,11 @@ void RandomEvent::execute_event(string target, double damage){
     }
 
     for (int i = 0; i < 9; i++){
-
-        if (target == "ALL" || properties_forsale[i]->get_prop_location() == target)
-            properties_forsale[i]->alter_prop_value(damage);
+        
+        if (properties_forsale[i] != NULL){
+            if (target == "ALL" || properties_forsale[i]->get_prop_location() == target)
+                properties_forsale[i]->alter_prop_value(damage);
+        }
     }
 }
 
@@ -161,6 +163,4 @@ void RandomEvent::print_gentrification(){
 
 RandomEvent::~RandomEvent(){
 
-    delete properties_forsale;
-    delete p;
 }

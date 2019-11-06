@@ -21,7 +21,7 @@ bool run(){
     return false;
 }
 
-void test_memleaks(Game g){
+void test_memleaks(Game &g){
 
     /*
     cout << "Testing House" << endl;
@@ -43,11 +43,13 @@ void test_memleaks(Game g){
     for (int i = 0; i < 100000000; i++){
         g.test_PropertiesList();
     }*/
-
-    
+    for (int i = 0; i < 10000000; i++){
+        g.test_PropertiesList();
+    }
+    /*
     for (int i = 0; i < 1000000; i++){
         g.test_addRemove();
-    }
+    }*/
 }
 
 // TODO accept command line arguments to debug
@@ -55,11 +57,11 @@ int main(){
 
     srand (time(NULL));
     cout << "Hello World" << endl;
-    
+
     Game g = Game();
-    
-    test_memleaks(g);
-    
+    g.run();
+    //test_memleaks(g);
+
     return 0;
 
 }

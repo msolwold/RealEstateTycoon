@@ -39,6 +39,4 @@ class RandomEvent{
         void print_crash();
         void print_gentrification();
 
-
-
 };

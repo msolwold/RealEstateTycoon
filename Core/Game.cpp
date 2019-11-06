@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include "Game.h"
-#include "PropertiesList.h"
 
 using namespace std;
 
@@ -14,11 +13,39 @@ Game::Game(){
     
     cout << "Creating new game..." << endl << endl;
 
+    round = 0;
+
     build_game();
 
 }
 
+Game::Game(const Game &g){
+    this->p = g.p;
+    this->properties_forsale = g.properties_forsale;
+    this->re = g.re;
+}
+
 int Game::run(){
+
+    print_directions();
+
+    cout << "Purchase Properties you would like to start the game with:" << endl;
+    p->buy_properties(properties_forsale);
+
+    while (p->get_player_bank() > 0 && p->get_player_bank() < 1000000){
+        
+        cout << "Your Current Balance is: " << p->get_player_bank() << endl;
+
+        p->collect_rent();
+        p->pay_mortgages();
+        if (p->get_player_bank() <= 0 || p->get_player_bank() >= 1000000) break;
+        re->event();
+        p->sell_properties();
+        cout << endl;
+        p->buy_properties(properties_forsale);
+        refill_forsale();
+
+    }
 
     return 1;
 }
@@ -26,11 +53,71 @@ int Game::run(){
 void Game::build_game(){
 
     cout << "Please enter your name (Press Enter for no name): ";
-    getline(cin, this->player_name);
+
+    string player_name = "";
+    getline(cin, player_name);
+
+    if (player_name == "") this->p = new Player();
+    else this->p = new Player(player_name);
+
+    this->properties_forsale = generate_properties();
+
+    this->re = new RandomEvent(p, properties_forsale);    
 }
 
-void Game::get_user_input(){
+// *Helpers
+Property ** Game::generate_properties(){
+    
+    Property ** properties = new Property*[9];
+    int i = 0;
 
+    // Houses
+    for (int j = i*3; j < 3*(i+1); j++){
+        properties[j] = new House();
+    }
+    i++;
+
+    // Apartments
+    for (int j = i*3; j < 3*(i+1); j++){
+        properties[j] = new Apartment();
+    }
+    i++;
+
+    // Businesses
+    for (int j = i*3; j < 3*(i+1); j++){
+        properties[j] = new Business();
+    } 
+
+    return properties;
+}
+
+void Game::print_directions(){
+
+}
+
+void Game::refill_forsale(){
+
+    int i = 0;
+
+    // Houses
+    for (int j = i*3; j < 3*(i+1); j++){
+        if (properties_forsale[j] == NULL) 
+            properties_forsale[j] = new House();
+    }
+    i++;
+
+    // Apartments
+    for (int j = i*3; j < 3*(i+1); j++){
+        if (properties_forsale[j] == NULL) 
+            properties_forsale[j] = new Apartment();
+    }
+    i++;
+
+    // Businesses
+    for (int j = i*3; j < 3*(i+1); j++){
+        if (properties_forsale[j] == NULL) 
+            properties_forsale[j] = new Business();
+    } 
 }
 
 void Game::test_House(){
@@ -99,4 +186,19 @@ void Game::test_addRemove(){
     cout << "Num Properties: " << pl->get_total_properties() << endl;
 
     pl->print_properties();    
+}
+
+Game::~Game(){
+
+    cout << "Deleting player..." << endl;
+    delete p;
+    
+    cout << "Deleting for sale properties..." << endl;
+
+    for (int i = 0; i < 9; i++){
+        delete properties_forsale[i];
+    }
+
+    cout << "Deleteing event..." << endl;
+    delete re;
 }

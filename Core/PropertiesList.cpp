@@ -23,7 +23,6 @@ PropertiesList::PropertiesList(){
 }
 
 PropertiesList::PropertiesList(const Property &p){
-    
     head = tail = create_node(p);
 
     num_apartments = 0;

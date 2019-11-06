@@ -5,27 +5,12 @@
 
 class PropertiesList {
 
-    private:
+    public:
 
         struct Node {
             Property * prop;
             Node *next;
         };
-
-        Node *head;
-        Node *tail;
-
-        int num_apartments;
-        int num_houses;
-        int num_businesses;
-        int total_properties;
-
-        // *Helpers
-        Node * create_node(const Property &p);
-        void delete_node(Node ** n);
-        void update_prop_count(std::string s, int flag);
-
-    public:
 
         PropertiesList();
         PropertiesList(const Property &p);
@@ -53,6 +38,23 @@ class PropertiesList {
         // *Mutators
         bool add_property(const Property &p);
         bool remove_property(int index);
+
+    private:
+
+        Node *head;
+        Node *tail;
+
+        int num_apartments;
+        int num_houses;
+        int num_businesses;
+        int total_properties;
+
+        // *Helpers
+        Node * create_node(const Property &p);
+        void delete_node(Node ** n);
+        void update_prop_count(std::string s, int flag);
+
+    
 
 };
 

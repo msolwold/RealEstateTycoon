@@ -2,7 +2,10 @@
 #define PLAYER_H
 
 #include <string>
-#include "../Core/PropertiesList.h"
+
+#include "PropertiesList.h"
+#include "../Tenants/Tenant.h"
+#include "../Properties/Property.h"
 
 class Player {
 
@@ -21,9 +24,18 @@ class Player {
         Player & operator = (const Player &p);
         ~Player();
 
+        void collect_rent();
+        void failed_rent(bool arr[], Tenant ** tenants, int num);
+        void adjust_rent(Property * prop, int budget, int failed);
+
+        void pay_mortgages();
+
+        void sell_properties();
+        void buy_properties(Property ** properties_forsale);
+
         std::string get_player_name() const;
         double get_player_bank() const;
-        struct Properties * get_player_properties() const;
+        PropertiesList * get_player_properties() const;
 
         void set_player_name(std::string name);
 

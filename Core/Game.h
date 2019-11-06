@@ -4,7 +4,10 @@
 #include <string>
 
 #include "Player.h"
+#include "PropertiesList.h"
 #include "../Properties/Property.h"
+#include "RandomEvent.h"
+#include "../Tenants/Tenant.h"
 
 // ? is this redundant?
 #include "../Properties/House.h"
@@ -16,17 +19,29 @@ class Game {
     private:
 
         bool debug;
-        std::string player_name;
+
+        Player * p;
+        Property ** properties_forsale;
+        RandomEvent * re;
+
+        int round;
+
 
         void build_game();
+        Property ** generate_properties();
+        void print_directions();
+
+        void refill_forsale();
+
 
     public:
 
         Game();
+        Game(const Game &g);
+        ~Game();
 
         int run();
 
-        void get_user_input();
 
         void test_House();
         void test_Apartment();

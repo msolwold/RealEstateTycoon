@@ -14,14 +14,14 @@ using namespace std;
 // *Constructor
 Apartment::Apartment(){
 
-    prop_tenants = Tenants();
+    prop_tenants = new Tenants();
 
     // 4-10 rooms
     int num = rand() % 6 + 4;
     
-    prop_tenants.tenants = create_tenants(num);
-    prop_tenants.num_tenants = num;
-    prop_tenants.avg_tenant_budget = get_budget_average(prop_tenants);
+    prop_tenants->tenants = create_tenants(num);
+    prop_tenants->num_tenants = num;
+    prop_tenants->avg_tenant_budget = get_budget_average(*prop_tenants);
 
     // 300,000 - 500,000
     prop_value = (rand() % 200 + 300)*1000;
@@ -33,28 +33,29 @@ Apartment::Apartment(){
     prop_mortgage_duration = prop_value / prop_mortgage;
     
     prop_capacity = num;
-
+    prop_rent = prop_tenants->avg_tenant_budget * .8;
 }
 
 Apartment::Apartment(const Apartment &a){
 
-    prop_tenants = Tenants();
-    prop_tenants.num_tenants = a.prop_tenants.num_tenants;
-    prop_tenants.avg_tenant_budget = a.prop_tenants.avg_tenant_budget;
+    prop_tenants = new Tenants();
+    prop_tenants->num_tenants = a.prop_tenants->num_tenants;
+    prop_tenants->avg_tenant_budget = a.prop_tenants->avg_tenant_budget;
     
     Tenant ** ten_array = new Tenant*[a.prop_capacity];
 
 
     for (int i = 0; i < a.prop_capacity; i++){
-        ten_array[i] = a.prop_tenants.tenants[i];
+        ten_array[i] = new Tenant(*a.prop_tenants->tenants[i]);
     }
 
-    prop_tenants.tenants = ten_array;
+    prop_tenants->tenants = ten_array;
 
     prop_value = a.prop_value;
     prop_mortgage = a.prop_mortgage;
     prop_mortgage_duration = a.prop_mortgage_duration;
     prop_capacity = a.prop_capacity;
+    prop_rent = a.prop_rent;
 
 }
 
@@ -70,7 +71,6 @@ Tenant ** Apartment::create_tenants(int num){
 
     int i = 0;
     while (i < num){
-
         ten_array[i] = new Civilian_Tenant();
         i++;
     }
